@@ -43,15 +43,32 @@
 }
 
 
+
 #panel.oculto {
   display: none;
 }
+
+
+@media (max-width: 768px) {
+  #panel {
+    display: none;
+  }
+
+  #panel.abierto {
+    display: block;
+  }
+}
+
+
+  
+
+
 </style></head><body><div id="scene"></div>
 <button id="botonMenuVoca"
-  onclick="document.getElementById('panel').classList.toggle('oculto')">
+  onclick="document.getElementById('panel').classList.toggle('abierto')">
   ☰ Menú
 </button>
-<section id="panel"><h1>🏫 VocaMaps 3D</h1><small>Escuela Vocacional UDG · Prototipo del módulo</small><p>Modelo 3D basado en fotografías y croquis. Selecciona puertas y ventanillas para conocer los espacios.</p><div class="buttons"><button class="active" data-level="all">Edificio</button><button data-level="0">Planta baja</button><button data-level="1">Piso 2</button><button data-level="2">Piso 3</button></div><div class="buttons"><button id="reset">↻ Restablecer vista</button><button id="walk">🚶 Recorrer: OFF</button></div><div id="info"><b>Explora el edificio</b><div>Haz clic sobre una puerta para ver su nombre.</div></div></section><div id="legend"><b>Referencias</b><div>🟥 Barandales y pasillos</div><div>🟨 Estructura del edificio</div><div>🟦 Elevador</div><div>🟩 Espacio seleccionado</div></div><div id="hint">Arrastra para girar · Rueda o pellizca para acercar · Clic en puertas · En modo recorrer: WASD y flechas</div><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"}}</script><script type="module">
+<section id="panel"></section>><h1>🏫 VocaMaps 3D</h1><small>Escuela Vocacional UDG · Prototipo del módulo</small><p>Modelo 3D basado en fotografías y croquis. Selecciona puertas y ventanillas para conocer los espacios.</p><div class="buttons"><button class="active" data-level="all">Edificio</button><button data-level="0">Planta baja</button><button data-level="1">Piso 2</button><button data-level="2">Piso 3</button></div><div class="buttons"><button id="reset">↻ Restablecer vista</button><button id="walk">🚶 Recorrer: OFF</button></div><div id="info"><b>Explora el edificio</b><div>Haz clic sobre una puerta para ver su nombre.</div></div></section><div id="legend"><b>Referencias</b><div>🟥 Barandales y pasillos</div><div>🟨 Estructura del edificio</div><div>🟦 Elevador</div><div>🟩 Espacio seleccionado</div></div><div id="hint">Arrastra para girar · Rueda o pellizca para acercar · Clic en puertas · En modo recorrer: WASD y flechas</div><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"}}</script><script type="module">
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 const scene=new THREE.Scene();scene.background=new THREE.Color(0xbad4e7);scene.fog=new THREE.Fog(0xbad4e7,45,100);
