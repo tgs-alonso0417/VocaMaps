@@ -1,6 +1,57 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VocaMaps 3D · Módulo A · v7</title><style>
 *{box-sizing:border-box}body{margin:0;background:#101b2a;color:#f5f7fb;font-family:system-ui,Segoe UI,Arial}#scene{position:fixed;inset:0}#panel{position:fixed;top:16px;left:16px;width:min(320px,calc(100vw - 32px));background:#101d2be8;border:1px solid #ffffff25;border-radius:18px;padding:17px;box-shadow:0 10px 30px #0006;backdrop-filter:blur(10px)}h1{font-size:21px;margin:0 0 3px}small{color:#b8c9da}p{font-size:13px;line-height:1.45;color:#c8d4e2}.buttons{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}button{border:1px solid #60738b;background:#24364a;color:white;border-radius:9px;padding:8px 11px;cursor:pointer;font-weight:600}button:hover,button.active{background:#286cba;border-color:#60a5fa}#info{margin-top:13px;border-top:1px solid #ffffff2a;padding-top:11px;min-height:54px;font-size:13px;line-height:1.5}#hint{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);padding:10px 16px;border-radius:30px;background:#101d2bdc;color:#e3edf9;font-size:12px;text-align:center;max-width:95vw}#legend{position:fixed;right:16px;top:16px;background:#101d2be8;padding:12px;border-radius:12px;font-size:12px;line-height:1.7}#legend b{color:#fff}@media(max-width:650px){#legend{top:auto;bottom:60px;right:10px}#panel{padding:12px;width:260px}#hint{font-size:10px}}
-</style></head><body><div id="scene"></div><section id="panel"><h1>🏫 VocaMaps 3D</h1><small>Escuela Vocacional UDG · Prototipo del módulo</small><p>Modelo 3D basado en fotografías y croquis. Selecciona puertas y ventanillas para conocer los espacios.</p><div class="buttons"><button class="active" data-level="all">Edificio</button><button data-level="0">Planta baja</button><button data-level="1">Piso 2</button><button data-level="2">Piso 3</button></div><div class="buttons"><button id="reset">↻ Restablecer vista</button><button id="walk">🚶 Recorrer: OFF</button></div><div id="info"><b>Explora el edificio</b><div>Haz clic sobre una puerta para ver su nombre.</div></div></section><div id="legend"><b>Referencias</b><div>🟥 Barandales y pasillos</div><div>🟨 Estructura del edificio</div><div>🟦 Elevador</div><div>🟩 Espacio seleccionado</div></div><div id="hint">Arrastra para girar · Rueda o pellizca para acercar · Clic en puertas · En modo recorrer: WASD y flechas</div><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"}}</script><script type="module">
+
+/* VocaMaps: diseño adaptable a celulares */
+@media (max-width: 600px) {
+  #panel {
+    top: 10px;
+    left: 10px;
+    width: min(230px, calc(100vw - 20px));
+    max-height: 45vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 12px;
+    font-size: 12px;
+    z-index: 1000;
+  }
+
+  #panel h1 {
+    font-size: 17px;
+  }
+
+  #panel button {
+    font-size: 12px;
+    padding: 7px;
+  }
+
+  #panel.oculto {
+    display: none;
+  }
+
+  #botonMenuVoca {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1001;
+    background: #17365d;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 13px;
+    cursor: pointer;
+  }
+}
+
+
+#panel.oculto {
+  display: none;
+}
+</style></head><body><div id="scene"></div>
+<button id="botonMenuVoca"
+  onclick="document.getElementById('panel').classList.toggle('oculto')">
+  ☰ Menú
+</button>
+<section id="panel"><h1>🏫 VocaMaps 3D</h1><small>Escuela Vocacional UDG · Prototipo del módulo</small><p>Modelo 3D basado en fotografías y croquis. Selecciona puertas y ventanillas para conocer los espacios.</p><div class="buttons"><button class="active" data-level="all">Edificio</button><button data-level="0">Planta baja</button><button data-level="1">Piso 2</button><button data-level="2">Piso 3</button></div><div class="buttons"><button id="reset">↻ Restablecer vista</button><button id="walk">🚶 Recorrer: OFF</button></div><div id="info"><b>Explora el edificio</b><div>Haz clic sobre una puerta para ver su nombre.</div></div></section><div id="legend"><b>Referencias</b><div>🟥 Barandales y pasillos</div><div>🟨 Estructura del edificio</div><div>🟦 Elevador</div><div>🟩 Espacio seleccionado</div></div><div id="hint">Arrastra para girar · Rueda o pellizca para acercar · Clic en puertas · En modo recorrer: WASD y flechas</div><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"}}</script><script type="module">
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 const scene=new THREE.Scene();scene.background=new THREE.Color(0xbad4e7);scene.fog=new THREE.Fog(0xbad4e7,45,100);
