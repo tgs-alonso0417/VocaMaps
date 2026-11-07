@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VocaMaps | Prepa Vocacional</title>
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f1f5f9;
+        color: #1e293b;
+        text-align: center;
+    }
+
+    h1 {
+        background: #003b71;
+        color: white;
+        margin: 0;
+        padding: 35px 15px;
+        font-size: 38px;
+    }
+
+    h2 {
+        color: #003b71;
+        margin-top: 35px;
+    }
+
+    p {
+        font-size: 17px;
+        line-height: 1.6;
+    }
+
+    input {
+        padding: 14px;
+        width: 280px;
+        max-width: 85%;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 14px 25px;
+        background: #0066b3;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 8px;
+    }
+
+    button:hover {
+        background: #004b87;
+    }
+</style>
+
+<body>
+
+    <h1>Bienvenido a VocaMaps</h1>
+
+    <h2>Preparatoria Vocacional UDG</h2>
+
+    <p>
+        Encuentra fácilmente salones,
+        laboratorios y servicios escolares.
+    </p>
+
+   
+<input
+    type="text"
+    id="buscador"
+    placeholder="Buscar un salón..."
+>
+
+<button onclick="buscarSalon()">Buscar</button>
+
+<p id="resultado"></p>
+
+    <h2>Mapa de la escuela</h2>
+
+
+<iframe
+ id="visor3d"
+  src="modelo3d.html"
+  width="100%"
+  height="650"
+  style="border:none; border-radius:15px;"
+  title="VocaMaps 3D">
+</iframe>
+
+</body>
+<script>
+    function buscarSalon() {
+        let busqueda = document.getElementById("buscador")
+            .value.trim().toLowerCase();
+
+        let resultado = document.getElementById("resultado");
+        
+const visor = document.getElementById("visor3d");
+
+const normalizar = (texto) =>
+  texto.normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
+
+const nombresEspacios = {
+  "oficialia": "Oficialía",
+  "direccion": "Dirección y Coordinación",
+  "coordinacion": "Dirección y Coordinación",
+  "venta de libros": "Ventanillas de venta de libros",
+  "ventanillas": "Ventanillas de venta de libros",
+  "secretaria": "Secretaría",
+  "control escolar": "Control Escolar",
+  "videoconferencias": "Sala de Videoconferencias",
+  "sala de videoconferencias": "Sala de Videoconferencias",
+  "orientacion educativa": "Orientación Educativa",
+  "conexion": "Conexión al Salón de Usos Múltiples",
+  "salon de usos multiples": "Salón de Usos Múltiples",
+  "sala de maestros": "Sala de Maestros",
+  "salon 1": "Salón 1",
+  "salon 2": "Salón 2",
+  "salon 3": "Salón 3",
+  "salon 4": "Salón 4",
+  "salon 5": "Salón 5",
+  "sala de cocina": "Salón de Cocina"
+};
+
+const nombreReal = nombresEspacios[normalizar(busqueda)];
+
+if (nombreReal && visor?.contentWindow) {
+  visor.contentWindow.postMessage({
+    tipo: "buscarEspacio",
+    nombre: nombreReal
+  }, window.location.origin);
+}
+
+
+    
+const salones = {
+  "oficialia": "Oficialía - Planta baja",
+  "direccion": "Dirección y Coordinación - Planta baja",
+  "coordinacion": "Dirección y Coordinación - Planta baja",
+  "venta de libros": "Ventanillas de venta de libros - Planta baja",
+  "ventanillas": "Ventanillas de venta de libros - Planta baja",
+  "secretaria": "Secretaría - Planta baja",
+  "control escolar": "Control Escolar - Planta baja",
+
+  "sala de videoconferencias": "Sala de Videoconferencias - Segundo piso",
+  "orientacion educativa": "Orientación Educativa - Segundo piso",
+  "salon de usos multiples": "Salón de Usos Múltiples - Segundo piso",
+  "sala de maestros": "Sala de Maestros - Segundo piso",
+
+  "salon 1": "Salón 1 - Tercer piso",
+  "salon 2": "Salón 2 - Tercer piso",
+  "salon 3": "Salón 3 - Tercer piso",
+  "salon 4": "Salón 4 - Tercer piso",
+  "salon 5": "Salón 5 - Tercer piso",
+  "sala de cocina": "Sala de Cocina - Tercer piso"
+};
+
+        if (busqueda === "") {
+            resultado.textContent = "Escribe el nombre de un salón.";
+        } else if (salones[busqueda]) {
+            resultado.textContent = "📍 " + salones[busqueda];
+        } else {
+            resultado.textContent = "No encontramos ese lugar.";
+        }
+    }
+</script>
+
+</html>
